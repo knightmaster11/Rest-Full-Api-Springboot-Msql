@@ -21,6 +21,12 @@ Sebelum menjalankan aplikasi ini, pastikan Anda memiliki hal-hal berikut:
   ```bash
   mvn -v
 
+## Konfigurasi
+
+buat database MYSQL dengan cara :
+ ```bash
+CREATE DATABASE rest_api_db;
+
 ## Menjalankan Aplikasi
 - Clone Repositori
    ```bash
