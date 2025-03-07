@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control Keyboard</title>
+</head>
+<body>
+
+<button onclick="pressPgUp()">Tekan PgUp</button>
+<button onclick="pressPgDown()">Tekan PgDown</button>
+
+<script>
+  // Fungsi untuk memanggil Python dengan Ajax
+  function callPythonFunction(action) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:5000/" + action, true);
+    xhr.send();
+  }
+
+  // Fungsi untuk menekan tombol PgUp
+  function pressPgUp() {
+    callPythonFunction("press_pgup");
+  }
+
+  // Fungsi untuk menekan tombol PgDown
+  function pressPgDown() {
+    callPythonFunction("press_pgdown");
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Recording</title>
+    <link rel="icon" href="images/favicon1.png">
+</head>
+<body>
+
+<button id="startRecording">Start Recording</button>
+<button id="stopRecording" disabled>Stop Recording</button>
+<button id="downloadVideo" disabled>Download Video</button>
+<video id="recordedVideo" controls></video>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let screenStream;
+        let speakerStream;
+        let microphoneStream;
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        const startRecordingButton = document.getElementById('startRecording');
+        const stopRecordingButton = document.getElementById('stopRecording');
+        const downloadVideoButton = document.getElementById('downloadVideo');
+        const recordedVideo = document.getElementById('recordedVideo');
+
+        const startRecording = async () => {
+            try {
+                screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true } );
+                speakerStream = await navigator.mediaDevices.getUserMedia({ audio: { mediaSource: 'audioOutput' } });
+                microphoneStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                const combinedStream = new MediaStream([
+                    ...screenStream.getTracks(),
+                    ...speakerStream.getTracks(),
+                    ...microphoneStream.getTracks()
+                ]);
+
+                mediaRecorder = new MediaRecorder(combinedStream);
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    const recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                    recordedVideo.src = URL.createObjectURL(recordedBlob);
+                    downloadVideoButton.disabled = false;
+                };
+
+                mediaRecorder.start();
+
+                startRecordingButton.disabled = true;
+                stopRecordingButton.disabled = false;
+            } catch (error) {
+                console.error('Error accessing media devices:', error);
+            }
+        };
+
+        const stopRecording = () => {
+            mediaRecorder.stop();
+            screenStream.getTracks().forEach(track => track.stop());
+            speakerStream.getTracks().forEach(track => track.stop());
+            microphoneStream.getTracks().forEach(track => track.stop());
+
+            startRecordingButton.disabled = false;
+            stopRecordingButton.disabled = true;
+        };
+
+        const downloadVideo = () => {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            document.body.appendChild(a);
+            a.style = 'display: none';
+            a.href = url;
+            a.download = 'recorded-video.webm';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+
+        startRecordingButton.addEventListener('click', startRecording);
+        stopRecordingButton.addEventListener('click', stopRecording);
+        downloadVideoButton.addEventListener('click', downloadVideo);
+    });
+</script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        window.opener.postMessage('ready', '*');
+
+        window.addEventListener('message', (event) => {
+            console.log("Received message from opener");
+            if (event.origin === window.opener.location.origin && event.data === 'submitForm') {
+                console.log("Submit form message received");
+                // Handle form submission if needed
+            }
+        });
+    });
+</script>
+
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Recording</title>
+    <link rel="icon" href="images/favicon1.png">
+</head>
+<body>
+
+<button id="startRecording">Start Recording</button>
+<button id="stopRecording" disabled>Stop Recording</button>
+<button id="downloadVideo" disabled>Download Video</button>
+<video id="recordedVideo" controls></video>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let screenStream;
+        let speakerStream;
+        let microphoneStream;
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        const startRecordingButton = document.getElementById('startRecording');
+        const stopRecordingButton = document.getElementById('stopRecording');
+        const downloadVideoButton = document.getElementById('downloadVideo');
+        const recordedVideo = document.getElementById('recordedVideo');
+
+        const startRecording = async () => {
+            try {
+                screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true } );
+                speakerStream = await navigator.mediaDevices.getUserMedia({ audio: { mediaSource: 'audioOutput' } });
+                microphoneStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                const combinedStream = new MediaStream([
+                    ...screenStream.getTracks(),
+                    ...speakerStream.getTracks(),
+                    ...microphoneStream.getTracks()
+                ]);
+
+                mediaRecorder = new MediaRecorder(combinedStream);
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    const recordedBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                    recordedVideo.src = URL.createObjectURL(recordedBlob);
+                    downloadVideoButton.disabled = false;
+                };
+
+                mediaRecorder.start();
+
+                startRecordingButton.disabled = true;
+                stopRecordingButton.disabled = false;
+            } catch (error) {
+                console.error('Error accessing media devices:', error);
+            }
+        };
+
+        const stopRecording = () => {
+            mediaRecorder.stop();
+            screenStream.getTracks().forEach(track => track.stop());
+            speakerStream.getTracks().forEach(track => track.stop());
+            microphoneStream.getTracks().forEach(track => track.stop());
+
+            startRecordingButton.disabled = false;
+            stopRecordingButton.disabled = true;
+        };
+
+        const downloadVideo = () => {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            document.body.appendChild(a);
+            a.style = 'display: none';
+            a.href = url;
+            a.download = 'recorded-video.webm';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+
+        startRecordingButton.addEventListener('click', startRecording);
+        stopRecordingButton.addEventListener('click', stopRecording);
+        downloadVideoButton.addEventListener('click', downloadVideo);
+    });
+</script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        window.opener.postMessage('ready', '*');
+
+        window.addEventListener('message', (event) => {
+            console.log("Received message from opener");
+            if (event.origin === window.opener.location.origin && event.data === 'submitForm') {
+                console.log("Submit form message received");
+                // Handle form submission if needed
+            }
+        });
+    });
+</script>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KISI || INDOENSIA</title>
+</head>
+<body>
+    <h1>KISI || INDOENSIA</h1>
+
+    <!-- Microphone Recording -->
+    <h2>Microphone Recording</h2>
+    <button id="startMicrophone">Start Recording Microphone</button>
+    <button id="stopMicrophone" disabled>Stop Recording Microphone</button>
+    <button id="downloadMicrophone" disabled>Download Microphone Recording</button>
+    <audio id="microphoneAudio" controls></audio>
+
+    <!-- Screen and Speaker Recording -->
+    <h2>Screen and Speaker Recording</h2>
+    <button id="startScreenRecording">Start Recording Screen</button>
+    <button id="stopScreenRecording" disabled>Stop Recording Screen</button>
+    <button id="downloadScreenAudio" disabled>Download Screen and Speaker Recording</button>
+    <video id="screenAudioVideo" controls></video>
+
+    <!-- Combined Recording -->
+    <h2>Combined Recording</h2>
+    <button id="combineRecordings" disabled>Combine Recordings</button>
+    <button id="downloadCombinedRecording" disabled>Download Combined Recording</button>
+    <video id="combinedRecordingVideo" controls></video>
+
+    <!-- Combined Start/Stop -->
+    <h2>Combined Start/Stop</h2>
+    <button id="startRecording">Start Recording</button>
+    <button id="stopRecording" disabled>Stop Recording</button>
+
+    <script>
+        let microphoneStream;
+        let screenAudioStream;
+        let mediaRecorderMicrophone;
+        let mediaRecorderScreenAudio;
+        let chunksMicrophone = [];
+        let chunksScreenAudio = [];
+        let combinedRecordingChunks = [];
+        let mediaRecorderCombined;
+
+        const startMicrophone = async () => {
+            try {
+                microphoneStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorderMicrophone = new MediaRecorder(microphoneStream);
+
+                mediaRecorderMicrophone.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        chunksMicrophone.push(event.data);
+                    }
+                };
+
+                mediaRecorderMicrophone.onstop = () => {
+                    const audioBlob = new Blob(chunksMicrophone, { type: 'audio/wav' });
+                    document.getElementById('microphoneAudio').src = URL.createObjectURL(audioBlob);
+                    document.getElementById('downloadMicrophone').disabled = false;
+                };
+
+                mediaRecorderMicrophone.start();
+                document.getElementById('startMicrophone').disabled = true;
+                document.getElementById('stopMicrophone').disabled = false;
+            } catch (error) {
+                console.error('Error starting microphone recording:', error);
+            }
+        };
+
+        const stopMicrophone = () => {
+            mediaRecorderMicrophone.stop();
+            document.getElementById('startMicrophone').disabled = false;
+            document.getElementById('stopMicrophone').disabled = true;
+        };
+
+        const downloadMicrophone = () => {
+            const audioBlob = new Blob(chunksMicrophone, { type: 'audio/wav' });
+            const url = URL.createObjectURL(audioBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'microphone_recording.wav';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+
+        const startScreenRecording = async () => {
+            try {
+                screenAudioStream = await navigator.mediaDevices.getDisplayMedia({ audio: true, video: true });
+                mediaRecorderScreenAudio = new MediaRecorder(screenAudioStream);
+
+                mediaRecorderScreenAudio.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        chunksScreenAudio.push(event.data);
+                    }
+                };
+
+                mediaRecorderScreenAudio.onstop = () => {
+                    const screenAudioBlob = new Blob(chunksScreenAudio, { type: 'video/webm' });
+                    document.getElementById('screenAudioVideo').src = URL.createObjectURL(screenAudioBlob);
+                    document.getElementById('downloadScreenAudio').disabled = false;
+                };
+
+                mediaRecorderScreenAudio.start();
+                document.getElementById('startScreenRecording').disabled = true;
+                document.getElementById('stopScreenRecording').disabled = false;
+            } catch (error) {
+                console.error('Error starting screen and audio recording:', error);
+            }
+        };
+
+        const stopScreenRecording = () => {
+            mediaRecorderScreenAudio.stop();
+            document.getElementById('startScreenRecording').disabled = false;
+            document.getElementById('stopScreenRecording').disabled = true;
+        };
+
+        const combineRecordings = () => {
+            if (chunksMicrophone.length > 0 && chunksScreenAudio.length > 0) {
+                combinedRecordingChunks = [...chunksMicrophone, ...chunksScreenAudio];
+                document.getElementById('combineRecordings').disabled = true;
+                document.getElementById('downloadCombinedRecording').disabled = false;
+            } else {
+                alert('Both microphone and screen/audio recordings are required for combining.');
+            }
+        };
+
+        const startRecording = () => {
+            startMicrophone();
+            startScreenRecording();
+            document.getElementById('startRecording').disabled = true;
+            document.getElementById('stopRecording').disabled = false;
+            document.getElementById('combineRecordings').disabled = false;
+        };
+
+        const stopRecording = () => {
+            stopMicrophone();
+            stopScreenRecording();
+            document.getElementById('startRecording').disabled = false;
+            document.getElementById('stopRecording').disabled = true;
+        };
+
+        const downloadScreenAudio = () => {
+            const screenAudioBlob = new Blob(chunksScreenAudio, { type: 'video/webm' });
+            const url = URL.createObjectURL(screenAudioBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'screen_and_speaker_recording.webm';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+
+        const downloadCombinedRecording = () => {
+            const combinedRecordingBlob = new Blob(combinedRecordingChunks, { type: 'video/webm' });
+            document.getElementById('combinedRecordingVideo').src = URL.createObjectURL(combinedRecordingBlob);
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(combinedRecordingBlob);
+            a.download = 'combined_recording.webm';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+
+        document.getElementById('startMicrophone').addEventListener('click', startMicrophone);
+        document.getElementById('stopMicrophone').addEventListener('click', stopMicrophone);
+        document.getElementById('downloadMicrophone').addEventListener('click', downloadMicrophone);
+        document.getElementById('startScreenRecording').addEventListener('click', startScreenRecording);
+        document.getElementById('stopScreenRecording').addEventListener('click', stopScreenRecording);
+        document.getElementById('downloadScreenAudio').addEventListener('click', downloadScreenAudio);
+        document.getElementById('startRecording').addEventListener('click', startRecording);
+        document.getElementById('stopRecording').addEventListener('click', stopRecording);
+        document.getElementById('combineRecordings').addEventListener('click', combineRecordings);
+        document.getElementById('downloadCombinedRecording').addEventListener('click', downloadCombinedRecording);
+    </script>
+</body>
+</html>
