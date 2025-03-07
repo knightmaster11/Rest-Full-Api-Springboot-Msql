@@ -16,3 +16,17 @@ Sebelum menjalankan aplikasi ini, pastikan Anda memiliki hal-hal berikut:
 - **Java 17** terinstal di komputer Anda. Anda bisa mengecek versi Java dengan perintah:
   ```bash
   java -version
+
+- **Maven** terinstal di komputer Anda. Anda bisa mengecek versi Java dengan perintah:
+  ```bash
+  mvn -v
+
+## Menjalankan Aplikasi
+- Clone Repositori
+   ```bash
+   git clone https://github.com/knightmaster11/Rest-Full-Api-Springboot-Mysql.git
+   cd Rest-Full-Api-Springboot-Mysql
+- Build dan Jalankan Aplikasi
+  ```bash
+  mvn clean install
+  mvn spring-boot:run
