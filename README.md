@@ -24,10 +24,10 @@ Sebelum menjalankan aplikasi ini, pastikan Anda memiliki hal-hal berikut:
 ## Konfigurasi
 
 buat database MYSQL dengan cara :
- ```bash
-CREATE DATABASE rest_api_db;
+  ```bash
+  CREATE DATABASE rest_api_db;
 
-## Menjalankan Aplikasi
+## Menjalankan Aplikasi 
 - Clone Repositori
    ```bash
    git clone https://github.com/knightmaster11/Rest-Full-Api-Springboot-Mysql.git
